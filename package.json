@@ -1,0 +1,32 @@
+{
+  "name": "phantomtask",
+  "version": "0.0.0",
+  "description": "Automate phantom tasks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/alxarch/phantomtask.git"
+  },
+  "keywords": [
+    "phantomjs"
+  ],
+  "author": "Alexandors Sigalas.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alxarch/phantomtask/issues"
+  },
+  "homepage": "https://github.com/alxarch/phantomtask",
+  "dependencies": {
+    "async": "~0.2.10",
+    "lodash": "~2.4.1",
+    "node-ish": "0.0.2",
+    "phantomjs": "~1.9.7-1"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt": "~0.4.2"
+  }
+}
