@@ -22,7 +22,7 @@
   "dependencies": {
     "async": "~0.2.10",
     "lodash": "~2.4.1",
-    "node-ish": "0.0.2",
+    "node-ish": "0.0.3",
     "phantomjs": "~1.9.7-1"
   },
   "devDependencies": {
