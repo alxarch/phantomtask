@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var events = require("events");
+var events = require("node-ish")("events");
 var eventnames = [
 	"Alert",
 	"Callback",
@@ -32,6 +32,9 @@ var initPage = function (page) {
 			};
 		}
 	});
+	page.on('consolemessage', function (args) {
+		console.log.apply(null, args);
+	});
 	page.on('callback', function (args) {
 		this.emit.apply(this, [].concat(args || []));
 	});
@@ -48,6 +51,5 @@ var createPage = function () {
 };
 
 module.exports = {
-	init: initPage,
 	create: createPage
 };

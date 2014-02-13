@@ -1,52 +1,38 @@
-var S = require("string");
+/* global phantom */
+var async = require("async");
 var _ = require("lodash");
 
-var path = require("path");
-var script = path.resolve(__dirname, 'lib/task.js');
-
-var PHANTOM_ARGUMENTS = ["webSecurity", "loadImages", "diskCache", "cookiesFile"];
-
-module.exports = function (options) {
-	options = _.extend({}, options || {});
-
-	return function (src, callback) {
-		var phantomjs = require("phantomjs").path;
-		var args = [];
-
-		_(options).pick(PHANTOM_ARGUMENTS).forOwn(function (value, key) {
-			args.push("--" + S(key).dasherize().toString());
-			args.push(value);
-		});
-		
-		args.push(script);
-
-		if (options.parallel) {
-			args.push("-p");
+module.exports = function (src, options, callback) {
+	options = _.assign({}, options);
+	var page = require('./webpage').create();
+	var jobs = [];
+	_.forOwn(options.tasks || {}, function (file, options) {
+		var task;
+		try {
+			task = require(file)(options);
 		}
+		catch (e) {
+			throw new Error("Failed to load task: " + file + ". (" + e + ")");
+		}
+		if (typeof t === "function") {
+			jobs.push(function (callback) {
+				task.call(page, callback);
+			});
+		}
+	});
 
-		_.forOwn(options.tasks || {}, function (options, file) {
-			args.push("-t");
-			args.push(file + path.delimiter + JSON.stringify(options));
+	page.open(src, function (status) {
+		if (status !== "success") {
+			console.error("Failed to open page: " + src);
+			process.exit(1);
+		}
+		[].concat(options.inject || []).forEach(function (script) {
+			page.injectJs(script);
 		});
-
-		_([].concat(options.inject || [])).forIn(function (file) {
-			args.push("-i");
-			args.push(file);
-		});
-
-		args.push(src);
-
-		var spawn = require("child_process").spawn;
-		var p = spawn(phantomjs, args);
-		p.on("exit", function (code) {
-			var error;
-			if (code !== 0) {
-				error = new Error("Phantomjs exited with code: " + code);
-			}
+		async[options.parallel ? "parallel" : "series"](jobs, function (error, results) {
 			if (typeof callback === "function") {
 				callback(error);
 			}
 		});
-		return p;
-	};
+	});
 };
