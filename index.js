@@ -1,24 +1,26 @@
 /* global phantom */
 var async = require("async");
 var _ = require("lodash");
-
 module.exports = function (src, options, callback) {
 	options = _.assign({}, options);
 	var page = require('./webpage').create();
 	var jobs = [];
-	_.forOwn(options.tasks || {}, function (file, options) {
-		var task;
-		try {
-			task = require(file)(options);
-		}
-		catch (e) {
-			throw new Error("Failed to load task: " + file + ". (" + e + ")");
-		}
-		if (typeof t === "function") {
-			jobs.push(function (callback) {
+	_.forOwn(options.tasks || {}, function (options, file) {
+		jobs.push(function (callback) {
+			var task;
+			try {
+				task = require(file)(options);
+			}
+			catch (e) {
+				callback(new Error("Failed to load task: " + file + ". (" + e + ")"));
+			}
+			if (typeof t === "function") {
 				task.call(page, callback);
-			});
-		}
+			}
+			else {
+				callback(new Error("Task " + file + "is not callable."));
+			}
+		});
 	});
 
 	page.open(src, function (status) {

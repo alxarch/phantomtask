@@ -4,18 +4,23 @@
 var _ = require("lodash");
 var path = require("node-ish/path");
 
-var argv = require("optimist-phantomjs")
-	.demand("t")
+var opt = require("optimist-phantomjs")
+	.usage("phantomtask <URL> [options]")
 	.alias("t", "task")
 	.describe("t", "Add task(s) to be executed on the page.")
 	.alias("i", "inject")
 	.describe("i", "Inject script(s) into the page.")
 	.alias("p", "parallel")
-	.describe("p", "Run tasks in parallel.")
-	.argv;
-
+	.describe("p", "Run tasks in parallel.");
+var argv = opt.argv;
 var tasks = {};
-var src = argv._["1"];
+var src = argv._[0];
+if (!src) {
+	console.error("Missing URL.")
+	opt.showHelp();
+	phantom.exit(1);
+}
+
 var options = {
 	parallel: argv.parallel,
 	inject: [].concat(argv.inject || []),
@@ -43,6 +48,10 @@ var options = {
 });
 
 var phantomtask = require("../index");
+
 phantomtask(src, options, function (error) {
+	if (error) {
+		console.error(error);
+	}
 	phantom.exit(!!error);
 });
