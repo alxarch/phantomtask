@@ -4,7 +4,7 @@ var _ = require("lodash");
 var path = require("path");
 var script = path.resolve(__dirname, 'lib/task.js');
 
-var PHANTOM_ARGUMENTS = ["loadImages", "diskCache", "cookiesFile"];
+var PHANTOM_ARGUMENTS = ["webSecurity", "loadImages", "diskCache", "cookiesFile"];
 
 module.exports = function (options) {
 	options = _.extend({}, options || {});
