@@ -1,13 +1,13 @@
 {
   "name": "phantomtask",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Automate phantom tasks.",
   "main": "index.js",
   "bin": {
-	  "phantomtask": "bin/phantomtask.js"
+    "phantomtask": "bin/phantomtask.js"
   },
   "engines": {
-	  "phantomjs": ">= 1.9"
+    "phantomjs": ">= 1.9"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,7 +28,8 @@
   "dependencies": {
     "async": "~0.2.10",
     "lodash": "~2.4.1",
-    "optimist-phantomjs": "0.0.1"
+    "optimist-phantomjs": "0.0.1",
+    "node-ish": "~0.1.1"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.8.0",
