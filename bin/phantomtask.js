@@ -2,7 +2,7 @@
 // vim: ts=4:sw=4:noet
 /* global phantom */
 var _ = require("lodash");
-var path = require("node-ish")("path");
+var path = require("node-ish/path");
 
 var argv = require("optimist-phantomjs")
 	.demand("t")
