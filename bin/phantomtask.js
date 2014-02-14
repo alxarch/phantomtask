@@ -16,18 +16,18 @@ var argv = opt.argv;
 var tasks = {};
 var src = argv._[0];
 if (!src) {
-	console.error("Missing URL.")
+	console.error("Missing URL.");
 	opt.showHelp();
 	phantom.exit(1);
 }
 
-var options = {
+var PhantomTask = require("../lib/phantomtask");
+var task = new PhantomTask({
 	parallel: argv.parallel,
-	inject: [].concat(argv.inject || []),
-	tasks: tasks
-};
+	inject: argv.inject
+});
 
-[].concat(argv.task).forEach(function (def) {
+[].concat(argv.task || []).forEach(function (def) {
 	var pos = def.indexOf(path.delimiter);
 	var taskname, options;
 	if (pos === -1) {
@@ -44,12 +44,10 @@ var options = {
 		}
 	}
 
-	tasks[taskname] = options;
+	task.add(taskname, options);
 });
 
-var phantomtask = require("../index");
-
-phantomtask(src, options, function (error) {
+task.run(src, function (error) {
 	if (error) {
 		console.error(error);
 	}
