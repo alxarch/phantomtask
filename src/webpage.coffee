@@ -1,4 +1,5 @@
 _ = require "lodash"
+process = require "node-ish/process"
 events = require "node-ish/events"
 eventnames = [
 	"Alert"
