@@ -1,10 +1,5 @@
 module.exports = (grunt) ->
 	grunt.initConfig
-		jshint:
-			options:
-				jshintrc: ".jshintrc"
-			bin:
-				src: "bin/*.js"
 		coffee:
 			compile:
 				cwd: "src/"
@@ -14,5 +9,5 @@ module.exports = (grunt) ->
 				dest: "lib/"
 
 	grunt.loadNpmTasks "grunt-contrib-coffee"
-	grunt.loadNpmTasks "grunt-contrib-jshint"
-	grunt.registerTask "default", ["coffee", "jshint"]
+	grunt.registerTask "build", ["coffee"]
+	grunt.registerTask "default", ["build"]

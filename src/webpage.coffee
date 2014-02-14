@@ -33,6 +33,9 @@ initPage = (page) ->
 	page.on 'consolemessage', (args) ->
 		console.log.apply null, [].concat args
 	
+	page.on 'error', (args) ->
+		console.log.apply null, [].concat args
+		
 	page.on 'callback', (args) ->
 		page.emit.apply page, [].concat(args or [])
 
