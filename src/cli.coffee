@@ -1,6 +1,7 @@
 #!/usr/bin/env phantomjs
 
 system = require "system"
+_ = require "lodash"
 usage = ->
 	console.log help()
 help = -> """
