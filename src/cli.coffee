@@ -1,9 +1,10 @@
 #!/usr/bin/env phantomjs
 
-_ = require "lodash"
 system = require "system"
-opt = require "optimist-phantomjs"
-opt.usage """
+usage = ->
+	console.log help()
+help = -> """
+
 phantomtask <URL> [tasks] [options]
 
 Tasks:
@@ -13,13 +14,14 @@ Tasks:
 
     -n, --name <taskname>    Name this task.
     -o, --options <json>     Pass options to the task. (JSON string)
-"""
 
-opt.alias    "i", "inject"
-opt.describe "i", "Inject script(s) into the page."
-opt.alias    "p", "parallel"
-opt.boolean  "p"
-opt.describe "p", "Run tasks in parallel."
+Options:
+    -h, --help               Display help.
+    -p, --parallel           Run tasks in parallel.
+    -d, --debug              Output debug info.
+    -i, --inject <script>    Inject script(s) into the page.
+
+"""
 
 options = {}
 src = null
@@ -47,7 +49,6 @@ do (args) ->
 					i--
 					return [path, label, options]
 
-	
 	while i < total
 		switch args[i]
 			when "-t", "--task"
@@ -56,6 +57,9 @@ do (args) ->
 			when "-i", "--inject"
 				i++
 				scripts.push args[i]
+			when "-h", "--help"
+				usage()
+				phantom.exit 0
 			when "-p", "--parallel"
 				options.parallel = yes
 			when "-d", "--debug"
@@ -65,11 +69,13 @@ do (args) ->
 		i++
 
 unless src
-	console.error "Missing URL."
-	opt.showHelp()
+	console.error """
+
+	Error: No URL provided.
+	"""
+	usage()
 	phantom.exit 1
 
-console.log "src: #{src}"
 PhantomTask = require "./phantomtask"
 task = new PhantomTask options
 
