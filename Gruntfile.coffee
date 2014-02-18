@@ -1,6 +1,8 @@
 module.exports = (grunt) ->
 	grunt.initConfig
 		coffee:
+			options:
+				bare: yes
 			compile:
 				cwd: "src/"
 				expand: yes

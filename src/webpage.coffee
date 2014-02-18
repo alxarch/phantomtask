@@ -23,6 +23,7 @@ eventnames = [
 ]
 
 initPage = (page) ->
+	page.helpers = require "./helpers"
 	page.libraryPath = process.cwd()
 	_.extend page, events.prototype
 	_.forIn eventnames, (name) ->
@@ -43,6 +44,8 @@ initPage = (page) ->
 	page.on 'pagecreated', (p) ->
 		initPage(p)
 		p.parentPage = page
+
+
 
 createPage = ->
 	page = require('webpage').create()

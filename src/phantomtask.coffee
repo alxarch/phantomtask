@@ -2,6 +2,7 @@ async = require "async"
 {assign} = require "lodash"
 
 class PhantomTask
+	
 	constructor: (options) ->
 		@jobs = []
 		@scripts = []
