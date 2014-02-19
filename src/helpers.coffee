@@ -66,6 +66,9 @@ module.exports =
 		xhr = new XMLHttpRequest()
 		xhr.open("GET", url, true);
 		xhr.responseType = "arraybuffer"
+		xhr.onerror = (event) ->
+			callback "ERROR: #{xhr.statusText}"
+
 		xhr.onload = (event) ->
 			callback null, atob base64ArrayBuffer xhr.response
 
