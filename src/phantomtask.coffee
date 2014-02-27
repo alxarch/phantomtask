@@ -27,7 +27,7 @@ class PhantomTask
 
 		@page.open url, (status) =>
 			unless status is "success"
-				callback new Error "Failed to open page: #{src}"
+				callback new Error "Failed to open page: #{url}"
 
 			for script in [].concat(@scripts)
 				@page.injectJs script
