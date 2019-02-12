@@ -28,7 +28,7 @@
   "homepage": "https://github.com/alxarch/phantomtask",
   "dependencies": {
     "async": "~0.2.10",
-    "lodash": "~2.4.1",
+    "lodash": ">=4.7.11",
     "node-ish": "~0.1.3"
   },
   "devDependencies": {
